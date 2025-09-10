@@ -1,0 +1,24 @@
+[0.486s] Invoking command in '/home/yoyo/ros2/app-001/src/turtle_project': PYTHONPATH=/home/yoyo/ros2/app-001/build/turtle_project/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/turtle_project build --build-base /home/yoyo/ros2/app-001/build/turtle_project/build install --record /home/yoyo/ros2/app-001/build/turtle_project/install.log --single-version-externally-managed install_data
+[0.660s] running egg_info
+[0.660s] writing ../../build/turtle_project/turtle_project.egg-info/PKG-INFO
+[0.660s] writing dependency_links to ../../build/turtle_project/turtle_project.egg-info/dependency_links.txt
+[0.661s] writing entry points to ../../build/turtle_project/turtle_project.egg-info/entry_points.txt
+[0.661s] writing requirements to ../../build/turtle_project/turtle_project.egg-info/requires.txt
+[0.661s] writing top-level names to ../../build/turtle_project/turtle_project.egg-info/top_level.txt
+[0.662s] reading manifest file '../../build/turtle_project/turtle_project.egg-info/SOURCES.txt'
+[0.662s] writing manifest file '../../build/turtle_project/turtle_project.egg-info/SOURCES.txt'
+[0.662s] running build
+[0.663s] running build_py
+[0.663s] copying turtle_project/main_pub_node.py -> /home/yoyo/ros2/app-001/build/turtle_project/build/lib/turtle_project
+[0.663s] running install
+[0.663s] running install_lib
+[0.663s] copying /home/yoyo/ros2/app-001/build/turtle_project/build/lib/turtle_project/main_pub_node.py -> /home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages/turtle_project
+[0.664s] byte-compiling /home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages/turtle_project/main_pub_node.py to main_pub_node.cpython-310.pyc
+[0.664s] running install_data
+[0.664s] running install_egg_info
+[0.666s] removing '/home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages/turtle_project-0.0.0-py3.10.egg-info' (and everything under it)
+[0.666s] Copying ../../build/turtle_project/turtle_project.egg-info to /home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages/turtle_project-0.0.0-py3.10.egg-info
+[0.666s] running install_scripts
+[0.678s] Installing spawn_base_turtle script to /home/yoyo/ros2/app-001/install/turtle_project/lib/turtle_project
+[0.679s] writing list of installed files to '/home/yoyo/ros2/app-001/build/turtle_project/install.log'
+[0.692s] Invoked command in '/home/yoyo/ros2/app-001/src/turtle_project' returned '0': PYTHONPATH=/home/yoyo/ros2/app-001/build/turtle_project/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/turtle_project build --build-base /home/yoyo/ros2/app-001/build/turtle_project/build install --record /home/yoyo/ros2/app-001/build/turtle_project/install.log --single-version-externally-managed install_data
