@@ -3,7 +3,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 import math
-import random
 class TurtleController(Node):
     def __init__(self, turtle_names):
         super().__init__("turtle_controller")

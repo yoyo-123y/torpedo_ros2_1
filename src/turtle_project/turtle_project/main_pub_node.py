@@ -16,7 +16,6 @@ class initiateTurtle(Node):
             "turtle4":[0,0,0],
             "turtle5":[0,0,0],
         }
-        # Call the service once on initialization
         self.spawn_turtle("turtle_1")
         self.spawn_turtle("turtle_2")
         self.spawn_turtle("turtle_3")
