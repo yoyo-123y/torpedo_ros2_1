@@ -1,0 +1,15 @@
+running develop
+running egg_info
+writing turtle_project.egg-info/PKG-INFO
+writing dependency_links to turtle_project.egg-info/dependency_links.txt
+writing entry points to turtle_project.egg-info/entry_points.txt
+writing requirements to turtle_project.egg-info/requires.txt
+writing top-level names to turtle_project.egg-info/top_level.txt
+reading manifest file 'turtle_project.egg-info/SOURCES.txt'
+writing manifest file 'turtle_project.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages/turtle-project.egg-link (link to .)
+Installing spawn_base_turtle script to /home/yoyo/ros2/app-001/install/turtle_project/lib/turtle_project
+
+Installed /home/yoyo/ros2/app-001/build/turtle_project
+running symlink_data

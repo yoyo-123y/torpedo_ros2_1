@@ -31,6 +31,10 @@ class initiateTurtle(Node):
                     break
             if((x_d!=5 and y_d!=5)):
                 break
+            if((x_d!=11 or y_d!=11)):
+                break
+            if((x_d!=0 or y_d!=0)):
+                break
         req.x = x_d
         req.y = y_d
         req.theta = float(rm.randint(0,360))
