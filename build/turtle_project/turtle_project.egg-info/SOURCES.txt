@@ -4,6 +4,7 @@ setup.py
 launch/launch_me.py
 resource/turtle_project
 turtle_project/__init__.py
+turtle_project/chase_turtle_mov.py
 turtle_project/main_pub_node.py
 turtle_project.egg-info/PKG-INFO
 turtle_project.egg-info/SOURCES.txt

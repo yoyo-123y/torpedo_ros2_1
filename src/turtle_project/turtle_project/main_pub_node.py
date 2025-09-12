@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from turtlesim.srv import *
 import random as rm
+import math
 class initiateTurtle(Node):
     def __init__(self):
         super().__init__("initiateTurtle")
@@ -24,20 +25,16 @@ class initiateTurtle(Node):
     def spawn_turtle(self,name:str):
         req = Spawn.Request()
         while True:
-            x_d=float(rm.randint(0,11))
-            y_d=float(rm.randint(0,11))
+            x_d=float(rm.randint(1,10))
+            y_d=float(rm.randint(1,10))
             for i in self.turtles.values():
                 if(x_d==i[0] and y_d==i[1]):
                     break
             if((x_d!=5 and y_d!=5)):
                 break
-            if((x_d!=11 or y_d!=11)):
-                break
-            if((x_d!=0 or y_d!=0)):
-                break
         req.x = x_d
         req.y = y_d
-        req.theta = float(rm.randint(0,360))
+        req.theta = rm.random()*math.pi*2
         self.turtles[name]=[x_d,y_d,req.theta]
         req.name = name
         future = self.cli.call_async(req)

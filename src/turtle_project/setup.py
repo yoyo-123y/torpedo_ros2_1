@@ -22,7 +22,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'spawn_base_turtle = turtle_project.main_pub_node:main'
+            'spawn_base_turtle = turtle_project.main_pub_node:main',
+            'chase_turtle_mov = turtle_project.chase_turtle_mov:main',
         ],
     },
 )

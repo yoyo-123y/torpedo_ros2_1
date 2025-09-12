@@ -14,4 +14,9 @@ def generate_launch_description():
             executable='spawn_base_turtle',
             name='initiate_turtle'
         ),
+        Node(
+            package='turtle_project',
+            executable='chase_turtle_mov',
+            name='chase_turtle_mov'
+        ),
     ])
