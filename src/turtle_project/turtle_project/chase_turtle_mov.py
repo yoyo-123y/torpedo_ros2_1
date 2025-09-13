@@ -14,7 +14,7 @@ class TurtleController(Node):
             self.turtles_poses = {name: None for name in turtle_names}
             self.create_subscription(Pose, f"/{name}/pose",lambda msg, n=name: self.update_pose(n, msg),10)
 
-        self.create_timer(0.1, self.move_turtles)
+        self.create_timer(0.5, self.move_turtles)
     def update_pose(self,name,pos):
         self.turtles_poses[name]=pos
     def check_collision(self, name):

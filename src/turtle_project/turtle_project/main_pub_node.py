@@ -8,7 +8,7 @@ class initiateTurtle(Node):
         super().__init__("initiateTurtle")
         self.cli = self.create_client(Spawn, 'spawn')
         while not self.cli.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for /spawn service...')
+            pass
         self.turtles={
             "turtle1":[0,0,0],
             "turtle2":[0,0,0],

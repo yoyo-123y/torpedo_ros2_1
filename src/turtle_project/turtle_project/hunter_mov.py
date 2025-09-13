@@ -2,7 +2,9 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
+from turtlesim.srv import *
 import math
+import random as rm
 class hunterTurtle(Node):
     def __init__(self, turtle_names):
         super().__init__("hunterTurtle")
@@ -10,11 +12,13 @@ class hunterTurtle(Node):
         self.hunted_turtle=''
         self.hunted_distance = float("inf")
         topic = f"/turtle1/cmd_vel"
+        self.cli = self.create_client(Spawn, 'spawn')
+        self.kill = self.create_client(Kill, 'kill')
         self.hunter_publisher = self.create_publisher(Twist, topic, 10)
         self.turtles_poses = {name: None for name in turtle_names}
         for name in turtle_names:
             self.create_subscription(Pose, f"/{name}/pose",lambda msg, n=name: self.update_pose(n, msg),10)
-        self.create_timer(0.1, self.move_turtles)
+        self.create_timer(0.5, self.move_turtles)
     def update_pose(self,name,pos):
         self.turtles_poses[name]=pos        
     def hunt_mode(self):
@@ -28,6 +32,8 @@ class hunterTurtle(Node):
         return angle_diff
     def chooseTurtle(self):
         main_turtle_pos = self.turtles_poses['turtle1']
+        self.hunted_distance = float("inf")
+        self.hunted_turtle = '' 
         for other_turtles_name, other_turtles_pos in self.turtles_poses.items():
             if other_turtles_name == 'turtle1' or other_turtles_pos==None:
                 continue
@@ -35,10 +41,48 @@ class hunterTurtle(Node):
             if(distance<self.hunted_distance):
                 self.hunted_turtle=other_turtles_name
                 self.hunted_distance=distance
-
+    def check_collision(self):
+        main_turtle_pos = self.turtles_poses['turtle1']
+        for other_turtles_name, other_turtles_pos in self.turtles_poses.items():
+            if other_turtles_name == 'turtle1':
+                continue
+            distance = ((main_turtle_pos.x - other_turtles_pos.x)**2 + (main_turtle_pos.y - other_turtles_pos.y)**2) ** 0.5
+            if distance < 0.5:
+                return other_turtles_name
+        return False
+    # def spawn_turtle(self,name:str):
+    #     req = Spawn.Request()
+    #     while True:
+    #         x_d=float(rm.randint(1,10))
+    #         y_d=float(rm.randint(1,10))
+    #         for i in self.turtles.values():
+    #             if(x_d==i[0] and y_d==i[1]):
+    #                 break
+    #         if((x_d!=5 and y_d!=5)):
+    #             break
+    #     req.x = x_d
+    #     req.y = y_d
+    #     req.theta = rm.random()*math.pi*2
+    #     self.turtles[name]=[x_d,y_d,req.theta]
+    #     req.name = name
+    #     future = self.cli.call_async(req)
+    #     rclpy.spin_until_future_complete(self, future)
+    #     self.get_logger().info(f"Turtle spawned: {future.result().name}")
+    def killTurtle(self,name):
+        req = Kill.Request()
+        req.name=name
+        future = self.kill.call_async(req)
+        rclpy.spin_until_future_complete(self, future)
     def move_turtles(self):
         pose = self.turtles_poses['turtle1']
         msg = Twist()
+        kill_var=self.check_collision()
+        if(kill_var!=False):
+            self.killTurtle(kill_var)
+            self.hunted_turtle = ''
+            self.hunted_distance = float("inf")
+            self.turtles_poses.pop(kill_var, None)
+            self.chooseTurtle()
         msg.linear.x = 1.3
         if not self.hunted_turtle:
             self.chooseTurtle()

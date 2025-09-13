@@ -1,0 +1,19 @@
+[0.362s] Invoking command in '/home/yoyo/ros2/app-001/build/turtle_project': PYTHONPATH=/home/yoyo/ros2/app-001/build/turtle_project/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/yoyo/ros2/app-001/build/turtle_project/build --no-deps symlink_data
+[0.519s] running develop
+[0.612s] running egg_info
+[0.612s] writing turtle_project.egg-info/PKG-INFO
+[0.612s] writing dependency_links to turtle_project.egg-info/dependency_links.txt
+[0.612s] writing entry points to turtle_project.egg-info/entry_points.txt
+[0.612s] writing requirements to turtle_project.egg-info/requires.txt
+[0.612s] writing top-level names to turtle_project.egg-info/top_level.txt
+[0.613s] reading manifest file 'turtle_project.egg-info/SOURCES.txt'
+[0.614s] writing manifest file 'turtle_project.egg-info/SOURCES.txt'
+[0.615s] running build_ext
+[0.615s] Creating /home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages/turtle-project.egg-link (link to .)
+[0.616s] Installing chase_turtle_mov script to /home/yoyo/ros2/app-001/install/turtle_project/lib/turtle_project
+[0.616s] Installing hunter_turtle script to /home/yoyo/ros2/app-001/install/turtle_project/lib/turtle_project
+[0.616s] Installing spawn_base_turtle script to /home/yoyo/ros2/app-001/install/turtle_project/lib/turtle_project
+[0.616s] 
+[0.616s] Installed /home/yoyo/ros2/app-001/build/turtle_project
+[0.616s] running symlink_data
+[0.633s] Invoked command in '/home/yoyo/ros2/app-001/build/turtle_project' returned '0': PYTHONPATH=/home/yoyo/ros2/app-001/build/turtle_project/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yoyo/ros2/app-001/install/turtle_project/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/yoyo/ros2/app-001/build/turtle_project/build --no-deps symlink_data
