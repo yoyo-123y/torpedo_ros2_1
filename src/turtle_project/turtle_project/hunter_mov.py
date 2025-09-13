@@ -8,34 +8,41 @@ class hunterTurtle(Node):
         super().__init__("hunterTurtle")
         self.turtles_poses = {}
         self.hunted_turtle=''
-        self.hunted_distance=0
-        self.turtle_angle=0
+        self.hunted_distance = float("inf")
         topic = f"/turtle1/cmd_vel"
         self.hunter_publisher = self.create_publisher(Twist, topic, 10)
+        self.turtles_poses = {name: None for name in turtle_names}
         for name in turtle_names:
-            self.turtles_poses = {name: None for name in turtle_names}
             self.create_subscription(Pose, f"/{name}/pose",lambda msg, n=name: self.update_pose(n, msg),10)
-
         self.create_timer(0.1, self.move_turtles)
     def update_pose(self,name,pos):
-        self.turtles_poses[name]=pos
+        self.turtles_poses[name]=pos        
     def hunt_mode(self):
+        turtle_angle=0.0
+        main_turtle_pos = self.turtles_poses['turtle1']
+        other_turtles_pos = self.turtles_poses[self.hunted_turtle]
+        dy = other_turtles_pos.y - main_turtle_pos.y
+        dx = other_turtles_pos.x - main_turtle_pos.x
+        turtle_angle = math.atan2(dy, dx)
+        angle_diff = turtle_angle - main_turtle_pos.theta
+        return angle_diff
+    def chooseTurtle(self):
         main_turtle_pos = self.turtles_poses['turtle1']
         for other_turtles_name, other_turtles_pos in self.turtles_poses.items():
-            if other_turtles_name == 'turtle1':
+            if other_turtles_name == 'turtle1' or other_turtles_pos==None:
                 continue
             distance = ((main_turtle_pos.x - other_turtles_pos.x)**2 + (main_turtle_pos.y - other_turtles_pos.y)**2) ** 0.5
             if(distance<self.hunted_distance):
-                self.hunted_turtle='turtle1'
+                self.hunted_turtle=other_turtles_name
                 self.hunted_distance=distance
-                self.turtle_angle=math.atan((main_turtle_pos.y - other_turtles_pos.y)/(main_turtle_pos.x - other_turtles_pos.x))
-                return self.turtle_angle
-            
+
     def move_turtles(self):
         pose = self.turtles_poses['turtle1']
         msg = Twist()
+        msg.linear.x = 1.3
+        if not self.hunted_turtle:
+            self.chooseTurtle()
         msg.angular.z = self.hunt_mode()
-        msg.linear.x = 1.0
         if pose.x <= 0 or pose.x >= 10.5 or pose.y <= 0.5 or pose.y >= 10.5:
             msg.angular.z = math.pi / 2 
         self.hunter_publisher.publish(msg)

@@ -19,4 +19,9 @@ def generate_launch_description():
             executable='chase_turtle_mov',
             name='chase_turtle_mov'
         ),
+        Node(
+            package='turtle_project',
+            executable='hunter_turtle',
+            name='hunter_turtle'
+        ),
     ])
