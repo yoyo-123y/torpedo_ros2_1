@@ -12,6 +12,7 @@ class hunterTurtle(Node):
         self.hunted_turtle=''
         self.hunted_distance = float("inf")
         topic = f"/turtle1/cmd_vel"
+        self.set_pen = self.create_client(SetPen, '/turtle1/set_pen')
         self.cli = self.create_client(Spawn, 'spawn')
         self.kill = self.create_client(Kill, 'kill')
         self.hunter_publisher = self.create_publisher(Twist, topic, 10)
@@ -19,8 +20,18 @@ class hunterTurtle(Node):
         for name in turtle_names:
             self.create_subscription(Pose, f"/{name}/pose",lambda msg, n=name: self.update_pose(n, msg),10)
         self.create_timer(0.5, self.move_turtles)
+    
+
+    def mark_hunter(self):
+        req = SetPen.Request()
+        req.r = 255
+        req.g = 0
+        req.b = 0
+        req.width = 3
+        req.off = 0
+        self.set_pen.call_async(req)
     def update_pose(self,name,pos):
-        self.turtles_poses[name]=pos        
+        self.turtles_poses[name]=pos     
     def hunt_mode(self):
         turtle_angle=0.0
         main_turtle_pos = self.turtles_poses['turtle1']
@@ -50,41 +61,65 @@ class hunterTurtle(Node):
             if distance < 0.5:
                 return other_turtles_name
         return False
-    # def spawn_turtle(self,name:str):
-    #     req = Spawn.Request()
-    #     while True:
-    #         x_d=float(rm.randint(1,10))
-    #         y_d=float(rm.randint(1,10))
-    #         for i in self.turtles.values():
-    #             if(x_d==i[0] and y_d==i[1]):
-    #                 break
-    #         if((x_d!=5 and y_d!=5)):
-    #             break
-    #     req.x = x_d
-    #     req.y = y_d
-    #     req.theta = rm.random()*math.pi*2
-    #     self.turtles[name]=[x_d,y_d,req.theta]
-    #     req.name = name
-    #     future = self.cli.call_async(req)
-    #     rclpy.spin_until_future_complete(self, future)
-    #     self.get_logger().info(f"Turtle spawned: {future.result().name}")
+    def spawn_turtle(self, name: str):
+        req = Spawn.Request()
+        while True:
+            x_d = float(rm.randint(1, 10))
+            y_d = float(rm.randint(1, 10))
+            # Avoid overlap
+            overlap = False
+            for pos in self.turtles_poses.values():
+                if pos is not None and int(pos.x) == int(x_d) and int(pos.y) == int(y_d):
+                    overlap = True
+                    break
+            if not overlap:
+                break
+            
+        req.x = x_d
+        req.y = y_d
+        req.theta = rm.random() * math.pi * 2
+        req.name = name
+
+        future = self.cli.call_async(req)
+        future.add_done_callback(lambda f: self.after_spawn(name, f))
+
+
+    def after_spawn(self, name, future):
+        try:
+            result = future.result()
+            if result is not None:
+                self.get_logger().info(f"Turtle spawned: {result.name}")
+                self.turtles_poses[name] = None
+            else:
+                self.get_logger().error("Spawn failed: no result")
+        except Exception as e:
+            self.get_logger().error(f"Spawn failed: {e}")
     def killTurtle(self,name):
         req = Kill.Request()
         req.name=name
         future = self.kill.call_async(req)
-        rclpy.spin_until_future_complete(self, future)
+        future.add_done_callback(lambda f: self.after_kill(name, f))
+    def after_kill(self, name, future):
+        try:
+            future.result()
+            self.get_logger().info(f"Turtle killed: {name}")
+            # Immediately respawn the same turtle
+            self.spawn_turtle(name)
+        except Exception as e:
+            self.get_logger().error(f"Failed to kill {name}: {e}")
     def move_turtles(self):
         pose = self.turtles_poses['turtle1']
         msg = Twist()
         kill_var=self.check_collision()
         if(kill_var!=False):
             self.killTurtle(kill_var)
+            self.spawn_turtle(kill_var)
             self.hunted_turtle = ''
             self.hunted_distance = float("inf")
-            self.turtles_poses.pop(kill_var, None)
             self.chooseTurtle()
         msg.linear.x = 1.3
         if not self.hunted_turtle:
+            self.mark_hunter()
             self.chooseTurtle()
         msg.angular.z = self.hunt_mode()
         if pose.x <= 0 or pose.x >= 10.5 or pose.y <= 0.5 or pose.y >= 10.5:

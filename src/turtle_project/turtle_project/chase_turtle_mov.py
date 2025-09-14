@@ -38,7 +38,6 @@ class TurtleController(Node):
             if pose.x <= 0 or pose.x >= 10.5 or pose.y <= 0.5 or pose.y >= 10.5:
                 msg.angular.z = math.pi / 2 
             pub.publish(msg)
-            self.get_logger().info(name)
 
 def main(args=None):
     rclpy.init(args=args)
